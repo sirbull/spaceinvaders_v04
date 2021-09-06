@@ -71,7 +71,7 @@ function Alien2Spawn () {
     ]
     for (let value of sprites.allOfKind(SpriteKind.Enemy2)) {
         Alien2Pos = Alien2Pos + 14
-        value.setPosition(5 + Alien2Pos, 32)
+        value.setPosition(5 + Alien2Pos, 30)
     }
 }
 function Alien1Spawn () {
@@ -209,7 +209,7 @@ function Alien3Spawn () {
     ]
     for (let value of sprites.allOfKind(SpriteKind.Emeny3)) {
         Alien3Pos = Alien3Pos + 14
-        value.setPosition(0 + Alien3Pos, 44)
+        value.setPosition(0 + Alien3Pos, 40)
     }
 }
 function ShootCount () {
@@ -239,6 +239,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Emeny3, function (sprite, ot
     LiveEnemies += -1
 })
 function EnemiesMovement () {
+    let gameTimer = 0
     alienMovePos += 1
     for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
         value.x += MoveValue
@@ -255,14 +256,28 @@ function EnemiesMovement () {
     }
     if (alienMovePos == 0) {
         for (let value of sprites.allOfKind(SpriteKind.Emeny3)) {
-            value.y += 5
+            value.y += 3
         }
         for (let value of sprites.allOfKind(SpriteKind.Enemy2)) {
-            value.y += 5
+            value.y += 3
         }
         for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
-            value.y += 5
+            value.y += 3
         }
+    }
+    if (alienMovePos == -15) {
+        for (let value of sprites.allOfKind(SpriteKind.Emeny3)) {
+            value.y += 3
+        }
+        for (let value of sprites.allOfKind(SpriteKind.Enemy2)) {
+            value.y += 3
+        }
+        for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+            value.y += 3
+        }
+    }
+    if (gameTimer == 0) {
+    	
     }
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -312,8 +327,14 @@ MoveValue = 3
 let LiveEnemies = 21
 info.setScore(0)
 let EnemySpeed = 1000
-game.onUpdateInterval(5000, function () {
+game.onUpdateInterval(EnemySpeed, function () {
+    EnemiesMovement()
+})
+game.onUpdateInterval(1000, function () {
     EnemySpeed += -100
+})
+forever(function () {
+	
 })
 forever(function () {
     spaceShip.x += controller.dx(100)
@@ -334,7 +355,4 @@ forever(function () {
 })
 game.onUpdateInterval(500, function () {
     ShootCount()
-})
-game.onUpdateInterval(100, function () {
-    EnemiesMovement()
 })
